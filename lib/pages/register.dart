@@ -1,5 +1,5 @@
 import 'package:empower_women/components/my_textfield.dart';
-import 'package:empower_women/pages/login.dart';
+import 'package:empower_women/pages/dashboard.dart';
 import 'package:empower_women/utils/snackbar_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
 
   void _navigateToLogin() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => const Login()));
+        .push(MaterialPageRoute(builder: (_) => const DashboardPage()));
   }
 
   @override
@@ -83,7 +83,7 @@ class _RegisterState extends State<Register> {
                 ),
                 const SizedBox(height: 50),
                 Text(
-                  'Welcome Back Girl, You\'ve Been Missed!',
+                  'Hello Girl, Welcome To A Ladies Only Space',
                   style: GoogleFonts.bebasNeue(fontSize: 16),
                 ),
                 const SizedBox(height: 25),
