@@ -1,4 +1,3 @@
-import 'package:empower_women/components/my_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +9,25 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  List<MenuList> menus = [];
+  List<MenuList> settings = [];
+
+  @override
+  void initState() {
+    super.initState();
+    menus.addAll([
+      MenuList(1, "Forum", Icons.chat_bubble, '/create_thread'),
+      MenuList(2, "News", Icons.newspaper, '/women_news'),
+      MenuList(3, "Inspire", Icons.abc_outlined, '/add_story'),
+      MenuList(4, "Inspiration", Icons.power, '/display_stories'),
+      MenuList(5, "Education", Icons.book, '/education_resources'),
+    ]);
+
+    settings.addAll([
+      MenuList(1, "Logout", Icons.logout, '/'),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,51 +46,131 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       backgroundColor: Colors.purple[100],
       body: ListView(
-        children: [
-          const SizedBox(height: 10),
-          Center(
-              child: Text(
-            'Welcome Ladies, Please Choose Any Option Below',
-            style: GoogleFonts.protestStrike(fontSize: 16),
-          )),
-          const SizedBox(height: 10),
-          const DashboardItem(
-            label: 'Forum/Discussion',
-            imagePath: 'images/inspire.jpg',
-            route: '/create_thread',
+        shrinkWrap: true,
+        children: <Widget>[
+          const SizedBox(
+            height: 50,
           ),
-          //const SizedBox(height: 10),
-          const Divider(
-            height: 5,
-            color: Colors.black54,
-            indent: 16.0,
-            endIndent: 16.0,
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 16),
+            child: Text(
+              'Dashboard',
+              style: GoogleFonts.protestStrike(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          const DashboardItem(
-            label: 'Inspiration and News',
-            imagePath: 'images/inspire.jpg',
-            route: '/page1',
+          const SizedBox(height: 20),
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 18,
+              mainAxisSpacing: 18,
+            ),
+            itemCount: menus.length,
+            itemBuilder: (context, index) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[400],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, menus[index].route);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(menus[index].icon, color: Colors.black),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width > 700 ? 10 : 8,
+                    ),
+                    Text(
+                      // ignore: unnecessary_null_comparison
+                      menus[index].title == null
+                          ? ""
+                          : menus[index].title.toString(),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          //const SizedBox(height: 10),
-          const Divider(
-            height: 5,
-            color: Colors.black54,
-            indent: 16.0,
-            endIndent: 16.0,
+          const SizedBox(
+            height: 30,
           ),
-          const DashboardItem(
-            label: 'Resource Directory',
-            imagePath: 'images/directory.jpg',
-            route: '/page1',
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 16,
+            ),
+            child: Text(
+              'Settings',
+              style: GoogleFonts.protestStrike(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          const Divider(
-            height: 5,
-            color: Colors.black54,
-            indent: 16.0,
-            endIndent: 16.0,
+          const SizedBox(
+            height: 20,
           ),
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 18,
+              mainAxisSpacing: 18,
+            ),
+            itemCount: settings.length,
+            itemBuilder: (context, index) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.purple[100],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, menus[index].route);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(settings[index].icon, color: Colors.black),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width > 700 ? 10 : 8,
+                    ),
+                    Text(
+                      // ignore: unnecessary_null_comparison
+                      settings[index].title == null
+                          ? ""
+                          : settings[index].title.toString(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          )
         ],
       ),
     );
   }
+}
+
+class MenuList {
+  int menuId;
+  String title;
+  IconData icon;
+  String route;
+
+  MenuList(this.menuId, this.title, this.icon, this.route);
 }

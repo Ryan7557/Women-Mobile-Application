@@ -3,12 +3,15 @@ import 'package:empower_women/utils/snackbar_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ForumPage extends StatefulWidget {
   final String threadId;
   final String threadTitle;
 
-  const ForumPage({Key? key, required this.threadId, required this.threadTitle}) : super(key: key);
+  const ForumPage(
+      {super.key, required this.threadId, required this.threadTitle});
 
   @override
   State<ForumPage> createState() => _ForumPageState();
@@ -114,48 +117,71 @@ class _ForumPageState extends State<ForumPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thread ${widget.threadTitle}'),
+        title: Text(
+          widget.threadTitle,
+          style: GoogleFonts.protestStrike(),
+        ),
+        backgroundColor: Colors.purple[100],
       ),
+      backgroundColor: Colors.purple[100],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _comments.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(_comments[index].content),
-                      subtitle: Text(
-                        'By ${_comments[index].userId} on ${_comments[index].createdAt}',
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _commentController,
-                      decoration: const InputDecoration(
-                        labelText: 'Comment',
-                        border: OutlineInputBorder(),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _comments.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _comments[index].content,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'By ${_comments[index].userId} on ${_formatDateTime(_comments[index].createdAt)}',
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: _createComment,
-                    child: const Text('Comment'),
-                  ),
-                ],
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _commentController,
+                    decoration: const InputDecoration(
+                      labelText: 'Comment...',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: _createComment,
+                  child: const Text('Send'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    return DateFormat('dd/MM/yyyy HH:mm')
+        .format(dateTime); // Custom date format
   }
 }
