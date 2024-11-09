@@ -1,10 +1,22 @@
 # empower_women
 
-A new Flutter project.
+A project based on SDG 5 Gender Equality
 
 ## Getting Started
+A project about Gender equality that built using:
+1. Flutter
+2. Backend using Supabase
 
-This project is a starting point for a Flutter application.
+It has 5 features in it:
+1. A Forum/Chat feature
+2. A news feature
+3. A feature to write a inspiration or to inspire
+4. A feature to view said inspiration
+5. A feature that provides free education on the internet
+
+It is my final project for PLP. Specifically my area of specialization which is Mobile application develepment.
+
+
 
 A few resources to get you started if this is your first Flutter project:
 
